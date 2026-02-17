@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>ICE BRIZZY</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      padding: 40px;
+      background: black;
+    }
+
+    h1 {
+      font-size: 40px;
+      letter-spacing: 3px;
+    }
+
+    .produtos {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 40px;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: #1c1c1c;
+      padding: 20px;
+      border-radius: 12px;
+      width: 250px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    button {
+      background: #a3ff00;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>ICE BRIZZY</h1>
+  <p>Streetwear com atitude</p>
+</header>
+
+<section class="produtos">
+
+  <div class="card">
+    <h3>Camiseta Lime Edition</h3>
+    <p>R$ 89,90</p>
+    <button onclick="comprar('Camiseta Lime Edition')">Comprar</button>
+  </div>
+
+  <div class="card">
+    <h3>Camiseta Black Street</h3>
+    <p>R$ 99,90</p>
+    <button onclick="comprar('Camiseta Black Street')">Comprar</button>
+  </div>
+
+  <div class="card">
+    <h3>Camiseta Ice Premium</h3>
+    <p>R$ 119,90</p>
+    <button onclick="comprar('Camiseta Ice Premium')">Comprar</button>
+  </div>
+
+</section>
+
+<script>
+  function comprar(produto) {
+    const telefone = "5511990108316";
+    const mensagem = "Olá! Quero comprar a " + produto;
+    const url = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(mensagem);
+    window.open(url, "_blank");
+  }
+</script>
+
+</body>
+</html>
