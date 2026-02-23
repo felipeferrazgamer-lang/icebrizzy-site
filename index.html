@@ -6,151 +6,228 @@
 <title>Ice Brizzy</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background-color: #111;
-  color: white;
-  text-align: center;
-  margin: 0;
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{background:#0a0a0a;color:white;}
+
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+background:linear-gradient(135deg,#000,#111);
 }
 
-header {
-  background: black;
-  padding: 20px;
-  font-size: 30px;
-  font-weight: bold;
-  color: lime;
+.hero h1{
+font-size:60px;
+color:#00ff88;
+letter-spacing:5px;
 }
 
-.produtos {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-  margin: 40px;
+.btn{
+background:#00ff88;
+color:black;
+padding:12px 30px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+font-weight:bold;
+margin-top:10px;
 }
 
-.produto {
-  background: #1e1e1e;
-  padding: 20px;
-  border-radius: 15px;
-  width: 250px;
-  transition: 0.3s;
+#produtos{
+padding:80px 10%;
+text-align:center;
 }
 
-.produto:hover {
-  transform: scale(1.05);
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:40px;
+margin-top:50px;
 }
 
-.produto img {
-  width: 200px;
-  height: auto;
+.card{
+background:#111;
+padding:20px;
+border-radius:15px;
 }
 
-button {
-  background: limegreen;
-  border: none;
-  padding: 10px 20px;
-  color: black;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
+.card img{
+width:100%;
+border-radius:10px;
 }
 
-button:hover {
-  background: green;
+.preco{
+color:#00ff88;
+margin:10px 0;
+font-weight:bold;
 }
 
-.carrinho {
-  background: #1e1e1e;
-  padding: 20px;
-  margin: 40px;
-  border-radius: 15px;
+select{
+padding:5px;
+margin-top:5px;
+border-radius:5px;
+}
+
+.cart-btn{
+position:fixed;
+top:20px;
+right:20px;
+background:#00ff88;
+color:black;
+padding:10px 15px;
+border-radius:30px;
+cursor:pointer;
+font-weight:bold;
+}
+
+#carrinho{
+position:fixed;
+top:0;
+right:-350px;
+width:300px;
+height:100%;
+background:#111;
+padding:20px;
+transition:0.4s;
+overflow-y:auto;
+}
+
+#carrinho.ativo{right:0;}
+
+.item{
+border-bottom:1px solid #333;
+padding:10px 0;
+font-size:14px;
+}
+
+.remover{
+color:red;
+cursor:pointer;
+font-size:12px;
 }
 </style>
 </head>
 
 <body>
 
-<header>ICE BRIZZY</header>
-
-<h2>Nossos Modelos</h2>
-
-<div class="produtos">
-
-  <div class="produto">
-    <img src="neymar.png">
-    <h3>Neymar Junior</h3>
-    <p>R$ 79,90</p>
-    <button onclick="addCarrinho('Neymar Junior',79.90)">Comprar</button>
-  </div>
-
-  <div class="produto">
-    <img src="minipekka.png">
-    <h3>Mini Pekka</h3>
-    <p>R$ 69,90</p>
-    <button onclick="addCarrinho('Mini Pekka',69.90)">Comprar</button>
-  </div>
-
-  <div class="produto">
-    <img src="bart.png">
-    <h3>Bart</h3>
-    <p>R$ 59,90</p>
-    <button onclick="addCarrinho('Bart',59.90)">Comprar</button>
-  </div>
-  
-  <div class="produto">
-    <img src="Foxy.png">
-    <h3>Foxy</h3>
-    <p>R$ 69,90</p>
-    <button onclick="addCarrinho('Foxy',69.90)">Comprar</button>
-  </div>
-
-  <div class="produto">
-    <img src="valquiria.png">
-    <h3>Valquíria</h3>
-    <p>R$ 74,90</p>
-    <button onclick="addCarrinho('Valquíria',74.90)">Comprar</button>
-  </div>
-    
-  <div class="produto">
-    <img src="minipekka.png">
-    <h3>Foxy</h3>
-    <p>R$ 69,90</p>
-    <button onclick="addCarrinho('Mini Pekka',69.90)">Comprar</button>
-  </div>
-
-
+<div class="cart-btn" onclick="toggleCarrinho()">
+🛒 (<span id="quantidade">0</span>)
 </div>
 
-<div class="carrinho">
-  <h2>Carrinho</h2>
-  <p id="lista"></p>
-  <h3>Total: R$ <span id="total">0.00</span></h3>
-  <button onclick="finalizar()">Finalizar no WhatsApp</button>
+<section class="hero">
+<h1>ICE BRIZZY</h1>
+<button class="btn" onclick="document.getElementById('produtos').scrollIntoView({behavior:'smooth'})">
+VER COLEÇÃO
+</button>
+</section>
+
+<section id="produtos">
+<h2>COLEÇÃO 2026</h2>
+
+<div class="grid">
+
+<div class="card">
+<img src="neymar.png">
+<h3>Neymar Edition</h3>
+<div class="preco">R$ 89,90</div>
+
+<select id="tamanho1">
+<option>P</option>
+<option>M</option>
+<option>G</option>
+<option>GG</option>
+</select>
+
+<button class="btn" onclick="add('Neymar Edition',89.90,'tamanho1')">
+Adicionar
+</button>
 </div>
-  
+
+<div class="card">
+<img src="bart.png">
+<h3>Bart Street</h3>
+<div class="preco">R$ 79,90</div>
+
+<select id="tamanho2">
+<option>P</option>
+<option>M</option>
+<option>G</option>
+<option>GG</option>
+</select>
+
+<button class="btn" onclick="add('Bart Street',79.90,'tamanho2')">
+Adicionar
+</button>
+</div>
+
+</div>
+</section>
+
+<div id="carrinho">
+<h2>Seu Carrinho</h2>
+<div id="lista"></div>
+<h3>Total: R$ <span id="total">0.00</span></h3>
+<button class="btn" onclick="finalizar()">Finalizar</button>
+</div>
+
 <script>
-let total = 0;
-let carrinho = [];
+let carrinho=[];
+let total=0;
 
-function addCarrinho(nome, valor) {
-    total += valor;
-    carrinho.push(nome + " - R$ " + valor.toFixed(2));
-    
-    document.getElementById("total").innerText = total.toFixed(2);
-    document.getElementById("lista").innerHTML = carrinho.join("<br>");
+function toggleCarrinho(){
+document.getElementById("carrinho").classList.toggle("ativo");
 }
 
-function finalizar() {
-    let mensagem = "Pedido Ice Brizzy:%0A";
-    carrinho.forEach(item => {
-        mensagem += item + "%0A";
-    });
-    mensagem += "%0ATotal: R$ " + total.toFixed(2);
+function add(nome,valor,idTamanho){
+let tamanho=document.getElementById(idTamanho).value;
 
-    window.open("https://wa.me/5511990108316?text=" + mensagem);
+let item={
+nome:nome,
+valor:valor,
+tamanho:tamanho
+};
+
+carrinho.push(item);
+total+=valor;
+
+atualizar();
+}
+
+function remover(index){
+total-=carrinho[index].valor;
+carrinho.splice(index,1);
+atualizar();
+}
+
+function atualizar(){
+document.getElementById("quantidade").innerText=carrinho.length;
+document.getElementById("total").innerText=total.toFixed(2);
+
+let html="";
+carrinho.forEach((item,index)=>{
+html+=`
+<div class="item">
+${item.nome} (${item.tamanho}) - R$ ${item.valor.toFixed(2)}
+<br>
+<span class="remover" onclick="remover(${index})">Remover</span>
+</div>
+`;
+});
+
+document.getElementById("lista").innerHTML=html;
+}
+
+function finalizar(){
+let msg="Pedido Ice Brizzy:%0A";
+carrinho.forEach(item=>{
+msg+=`${item.nome} (${item.tamanho}) - R$ ${item.valor.toFixed(2)}%0A`;
+});
+msg+=`%0ATotal: R$ ${total.toFixed(2)}`;
+
+window.open("https://wa.me/5511990108316?text="+msg);
 }
 </script>
 
