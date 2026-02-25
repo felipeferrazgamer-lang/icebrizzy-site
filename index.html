@@ -6,66 +6,95 @@
 <title>Ice Brizzy</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: black;
-    color: white;
-    text-align: center;
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#000,#111,#000);
+    color:white;
+    text-align:center;
+    overflow-x:hidden;
 }
 
-header {
-    padding: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    background: #111;
+header{
+    padding:25px;
+    font-size:32px;
+    font-weight:bold;
+    letter-spacing:3px;
+    animation:fadeDown 1s ease;
 }
 
-.produtos {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px;
-    padding: 40px;
+.produtos{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:30px;
+    padding:40px;
 }
 
-.card {
-    background: #1a1a1a;
-    padding: 20px;
-    border-radius: 15px;
-    width: 250px;
+.card{
+    background:#1a1a1a;
+    padding:20px;
+    border-radius:20px;
+    width:250px;
+    transition:0.4s;
+    animation:fadeUp 1s ease;
 }
 
-.card img {
-    width: 100%;
-    border-radius: 10px;
+.card:hover{
+    transform:translateY(-10px) scale(1.05);
+    box-shadow:0 0 25px #00ffcc;
 }
 
-select, button {
-    margin-top: 10px;
-    padding: 8px;
-    width: 100%;
-    border-radius: 8px;
-    border: none;
+.card img{
+    width:100%;
+    border-radius:15px;
 }
 
-button {
-    background: #00ffcc;
-    font-weight: bold;
-    cursor: pointer;
+select,button{
+    margin-top:10px;
+    padding:10px;
+    width:100%;
+    border-radius:10px;
+    border:none;
 }
 
-button:hover {
-    background: #00ccaa;
+button{
+    background:#00ffcc;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-#carrinho {
-    background: #111;
-    padding: 20px;
+button:hover{
+    background:#00ccaa;
+    transform:scale(1.05);
 }
 
-.item-carrinho {
-    margin: 10px 0;
+#carrinho{
+    background:#111;
+    padding:30px;
+    border-top:2px solid #00ffcc;
+    animation:fadeUp 1s ease;
+}
+
+.item-carrinho{
+    margin:10px 0;
+    animation:fadeIn 0.5s ease;
+}
+
+@keyframes fadeUp{
+    from{opacity:0; transform:translateY(30px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeDown{
+    from{opacity:0; transform:translateY(-30px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
 }
 </style>
 </head>
@@ -76,90 +105,107 @@ button:hover {
 
 <section class="produtos">
 
+<!-- PRODUTO 1 -->
 <div class="card">
-    <img src="produto1.jpg" alt="Camisa Ice Brizzy">
-    <h3>Camisa Ice Brizzy</h3>
-    <p>R$ 89,90</p>
+<img src="produto1.jpg">
+<h3>Camisa Ice Classic</h3>
+<p>R$ 89,90</p>
+<select id="t1">
+<option value="">Escolha o tamanho</option>
+<option>P</option><option>M</option><option>G</option><option>GG</option>
+</select>
+<button onclick="add('Ice Classic',89.90,'t1')">Adicionar</button>
+</div>
 
-    <select id="tamanho1">
-        <option value="">Escolha o tamanho</option>
-        <option>P</option>
-        <option>M</option>
-        <option>G</option>
-        <option>GG</option>
-    </select>
+<!-- PRODUTO 2 -->
+<div class="card">
+<img src="produto2.jpg">
+<h3>Ice Premium Black</h3>
+<p>R$ 119,90</p>
+<select id="t2">
+<option value="">Escolha o tamanho</option>
+<option>P</option><option>M</option><option>G</option><option>GG</option>
+</select>
+<button onclick="add('Ice Premium Black',119.90,'t2')">Adicionar</button>
+</div>
 
-    <button onclick="adicionar('Camisa Ice Brizzy', 89.90, 'tamanho1')">
-        Adicionar ao Carrinho
-    </button>
+<!-- PRODUTO 3 -->
+<div class="card">
+<img src="produto3.jpg">
+<h3>Ice Oversized</h3>
+<p>R$ 129,90</p>
+<select id="t3">
+<option value="">Escolha o tamanho</option>
+<option>P</option><option>M</option><option>G</option><option>GG</option>
+</select>
+<button onclick="add('Ice Oversized',129.90,'t3')">Adicionar</button>
+</div>
+
+<!-- PRODUTO 4 -->
+<div class="card">
+<img src="produto4.jpg">
+<h3>Ice Limited</h3>
+<p>R$ 149,90</p>
+<select id="t4">
+<option value="">Escolha o tamanho</option>
+<option>P</option><option>M</option><option>G</option><option>GG</option>
+</select>
+<button onclick="add('Ice Limited',149.90,'t4')">Adicionar</button>
 </div>
 
 </section>
 
 <section id="carrinho">
-    <h2>Carrinho</h2>
-    <div id="itens"></div>
-    <h3 id="total">Total: R$ 0,00</h3>
-    <button onclick="finalizar()">Finalizar no WhatsApp</button>
+<h2>Carrinho</h2>
+<div id="itens"></div>
+<h3 id="total">Total: R$ 0,00</h3>
+<button onclick="finalizar()">Finalizar no WhatsApp</button>
 </section>
 
 <script>
-let carrinho = [];
+let carrinho=[];
 
-function adicionar(nome, preco, tamanhoId) {
-    let tamanho = document.getElementById(tamanhoId).value;
-
-    if(tamanho === ""){
-        alert("Escolha um tamanho!");
-        return;
-    }
-
-    carrinho.push({nome, preco, tamanho});
-    atualizarCarrinho();
+function add(nome,preco,id){
+let tamanho=document.getElementById(id).value;
+if(tamanho===""){alert("Escolha o tamanho!");return;}
+carrinho.push({nome,preco,tamanho});
+atualizar();
 }
 
-function remover(index){
-    carrinho.splice(index, 1);
-    atualizarCarrinho();
+function remover(i){
+carrinho.splice(i,1);
+atualizar();
 }
 
-function atualizarCarrinho(){
-    let itensDiv = document.getElementById("itens");
-    let total = 0;
-    itensDiv.innerHTML = "";
+function atualizar(){
+let itens=document.getElementById("itens");
+let total=0;
+itens.innerHTML="";
 
-    carrinho.forEach((item, index) => {
-        total += item.preco;
+carrinho.forEach((item,i)=>{
+total+=item.preco;
+itens.innerHTML+=`
+<div class="item-carrinho">
+${item.nome} - Tam:${item.tamanho} - R$${item.preco.toFixed(2)}
+<button onclick="remover(${i})">Remover</button>
+</div>`;
+});
 
-        itensDiv.innerHTML += `
-            <div class="item-carrinho">
-                ${item.nome} - Tam: ${item.tamanho} - R$ ${item.preco.toFixed(2)}
-                <button onclick="remover(${index})">Remover</button>
-            </div>
-        `;
-    });
-
-    document.getElementById("total").innerText =
-        "Total: R$ " + total.toFixed(2);
+document.getElementById("total").innerText="Total: R$ "+total.toFixed(2);
 }
 
 function finalizar(){
-    if(carrinho.length === 0){
-        alert("Carrinho vazio!");
-        return;
-    }
+if(carrinho.length===0){alert("Carrinho vazio!");return;}
+let msg="Pedido Ice Brizzy:%0A";
+let total=0;
 
-    let mensagem = "Pedido Ice Brizzy:%0A";
-    let total = 0;
+carrinho.forEach(item=>{
+msg+=`- ${item.nome} Tam:${item.tamanho} R$${item.preco}%0A`;
+total+=item.preco;
+});
 
-    carrinho.forEach(item => {
-        mensagem += `- ${item.nome} Tam:${item.tamanho} R$${item.preco}%0A`;
-        total += item.preco;
-    });
-
-    mensagem += `%0ATotal: R$${total.toFixed(2)}`;
-
-    window.open(`https://wa.me/5511990108316?text=${mensagem}`);
+msg+=`%0ATotal: R$${total.toFixed(2)}`;
+window.open(`https://wa.me/5511990108316?text=${msg}`);
 }
 </script>
 
